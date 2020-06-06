@@ -1,0 +1,181 @@
+* 2.1 Functions, epimorphisms
+** Functions
+ - Isomorphism:
+   - Maps 1 to 1
+   - Is invertible
+ - Two reasons not to be a isomorphism
+   1. Injective (all x have different f x)
+   2. Surjective (Image == codomain)
+ - In the contex of category theory:
+   - Injective == monomorphism
+   - Surjective == epimorphism
+** Epimorphism
+We need to show the surjective property of functions in set theory in the 
+context of category theory, where we have only the ability to do composition.
+
+We can show that a function F :: A -> B is an epimorphism by using two other
+functions G1 :: B -> C and G2 :: B -> C that differ only by values outside of the
+image of F. Therefore if G1 = G2 then the morphism in question is an
+epimorphism.
+
+Simply:
+(\forall C \forall G1, G2 :: (B ->  C)  G1 \circ F = G2 \circ F \Rightarrow  G1 = G2) \Rightarrow F is an epimorphism.
+
+* 2.2 Monomorphisms, simple types
+** Monomorphisms
+ - Not an injective function
+
+Just as the epimorphism we need to show the property of a monomorphism.
+
+To show that F :: A -> B is a monomorphism we show that there isn't any different
+G1 :: C ->  A and G2 :: C -> A that the two different values of G1 and G2 in A maps
+to the same value in B ( F \circ G1 = F \circ G2).
+
+Simply:
+(\forall C \forall G1, G2 :: (C -> A)  F \circ G1 = F \circ G2 \Rightarrow G1 = G2) \Rightarrow F is a monomorphism.
+
+** Types
+About sets actually.
+
+Simplest: \emptyset (empty set)[void].
+ - Exists functions (Void -> *)
+ - Exemple id_void :: Void -> Void
+ - Corresponds to "false".
+
+Next: Singleton (Unit [`()`]).
+ - Corresponds to "true".
+ - unit :: a -> ()
+ - one :: () -> int, two :: () -> int, etc...
+
+Next: sets with two elements == Boolean
+ - A function that returns a boolean is a predicate.
+* 3.1 Examples of categories, orders, monoids
+We yet don't know examples of categories.
+
+Simplest possible category:
+ - No objects? Yes:
+   - The morphisms are composable (there are no morphisms).
+   -  It has identity.
+ - \emptyset 
+
+Next: one object:
+- Has an Identy as its unique morphism.
+
+We can start with any graph to create a category:
+ 1. Add the identities.
+ 2. For each pair of composable morphisms create the compose of them.
+
+We are creating a free category from the graph. Thats because we are not
+adding any constraint to the graph.
+
+** Orders:
+ - "Arrows" are not functions.
+ - "Arrows" represent relations.
+ - In particular is the relation " \le "
+ - We draw an arrow from 'a' to 'b' if  'a \le b'
+
+ - Pre-order is the simples order.
+ - Thin-category == Pre-order.
+
+*** Hom-set
+The hom-set in a category C from a to b ( C( a, b) ) is the set of morphisms
+from a to b.
+
+In a thin category all hom-sets are either \emptyset or a singleton set.
+
+*** Partial order
+If there is an arrow from a to b there isn't any arrow from b to a.
+
+*** Total order
+There is one arrow from each objct to each other object.
+
+*** Epimorphism and monomorphism
+In a thin category even if a morphism is a epi and mono, it is not an
+isomorphism.
+
+** Back to one object category
+Not necessarily only one morphism. We have an identity and other arrows.
+
+Any category with a single object and any number of arrows is a Monoid.
+
+ - Monoid :: any category with a single object.
+
+If it has a unit and associativity it is a monoid. (Set theory).
+ - String concatenation is a monoid with the empty string being the unit.
+* 3.2 Kleisli category
+Kind of monad.
+* 4.1 Terminal and initial objects
+** Kleisli category recap
+You have two categories: 
+ - C
+ - It's Kleisli category.
+
+The objects are the same. The arrows *dont*.
+
+The arrows a \rightarrow b in Kleisli category are the arrows a \rightarrow m b in the C
+category.
+
+** Universal contruction
+Categorical perspective of something.
+
+Defined in terms of arrows.
+
+ - Pattern :: combination of objects and arrows.
+
+Search google for patterns. Lots of 'hits'. The best match defines the
+object you are looking for.
+
+*** Example: Singleton set
+How does this set relates to other sets. (Arrows).
+
+From every set there is an arrow to the unit.
+
+There is no function from non-empty set to \emptyset .
+Other than this example every set has arrow to every other set.
+
+It's (singleton set) pattern is that it only has one arrow coming to it by
+each other set.
+
+This is called terminal object.
+ - Terminal object :: \forall a . \exist f :: a \rightarrow ()  ^  \forall f :: a \rightarrow () , g :: a \rightarrow () \Rightarrow f = g
+
+*** Other example: \emptyset
+Reverse of terminal object.
+
+There is one arrow 'void (\emptyset) \rightarrow a' for every set a.
+
+This is called initial object.
+ - Initial object :: \forall a . \exist f :: \emptyset \rightarrow a  ^ \forall f :: \emptyset \rightarrow a , g :: \emptyset \rightarrow a \Rightarrow f = g
+
+*** How does this relate to the Google search?
+The /pattern/ is seen as one object.
+
+The /ranking/ of these objects (who appears first) is proportional
+to the number of unique arrows to the object (more arrows comes 
+first).
+
+* 4.2 Products
+** Opossite categories
+Every category C has a opposite category C^op that has the same
+elements  but reversed arrows (morphisms).
+
+(g \circ f)^op = f^op \circ g^op
+
+ - Terminal object would be the initial object in the opposite category.
+
+** Cartesian product in sets
+
+- e1 \in a, e2 \in b \Rightarrow <e1,e2> \in a \times b
+
+Two special functions called /projections/. In Haskell is called ~fst~ and ~snd~.
+
+ - ~fst~ a \times b = a
+ - ~snd~ a \times b = b
+
+The pattern is one object with two arrows. One of these is the cartesian
+product.
+
+We have to rank it.
+ 
+** Categorical product
+Three objects a, b, c and two morphisms p :: c \rightarrow a and q :: c \rightarrow b.
