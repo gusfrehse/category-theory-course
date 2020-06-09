@@ -179,3 +179,55 @@ We have to rank it.
  
 ** Categorical product
 Three objects a, b, c and two morphisms p :: c \rightarrow a and q :: c \rightarrow b.
+* 5.1 Coproduct, sum types
+** Definitions
+ - Product :: object C with morphisms p :: C \rightarrow a and q :: C \rightarrow b such there is no
+      object that have m :: C \rightarrow C' and  p' :: C' \rightarrow a and p' :: C' \rightarrow b.
+- Coproduct :: Opposite category product (reversed arrows).
+** What does coproduct means in code?
+If a and b are types, and morphisms functions, C is a union of both types.
+In haskell:
+#+BEGIN_SRC haskell
+data Either a b = Left a | Right b
+#+END_SRC
+
+** Is it a discriminated union or a regular union?
+A discriminated union when used the same set twice "label" each elements
+by saying whether it comes from the right set or the left set.
+
+A regular union just makes same elements one element.
+
+The discriminated union is more general than the regular one, as you have a
+mapping from the discriminated to the regular, but not the other way around.
+
+** Construction/Destruction analogy
+The product is defined by it's destructor (~fst~ and ~snd~), while coproduct
+is defined by its constructor ~Left a~ and ~Right b.~
+* 5.2 Algebraic data types
+** Monoids
+Types are monoids (associativity and identity) with respect to product, by
+the tuples.
+ - (a, b) is isomorphic to (b, a) (~swap~).
+ - (a, (b, c)) is thus isomorphic to ((a, b), c) (associativity).
+ - (a, ()) is isomorphic to a (identity).
+
+They're also monoids with respect to sum, by the Either data structure.
+ - Either a b is isomorphic to Either b a.
+ - Either a (Either b c) is isomorphic to Either (Either a b) c.
+ - Either a Void is isomorphic to a.
+
+** Fun with the algebra
+*** Distributive property
+ - a * (b + c) = a*b + a*c
+ - (a, Either b c) ~ Either (a, b) (a, c)
+
+*** Solving equations
+ - l(a) = 1 + a * l(a) \Rightarrow l(a) = 1 / (1 - a)
+The first equation is isomorphic to
+#+BEGIN_SRC haskell
+data List = Nil | Cons a (List a)
+#+END_SRC
+The second is equal to:
+#+BEGIN_LaTeX
+$\sum_{n=0}^{\infty} a^{n}$
+#+END_LaTeX
